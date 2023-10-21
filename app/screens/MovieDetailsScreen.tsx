@@ -13,4 +13,4 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default MovieDetailsScreen;
+export { MovieDetailsScreen };
