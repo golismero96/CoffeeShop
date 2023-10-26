@@ -77,3 +77,28 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+
+# My Dependencies
+
+npm install
+
+- @react-navigation/native
+- react-native-screens react-native-safe-area-context
+- @react-navigation/native-stack
+- @react-navigation/bottom-tabs 
+- react-native-linear-gradient
+- react-native-vector-icons
+- @react-native-community/blur
+- lottie-react-native
+- -D @types/react-native-vector-icons
+- zustand
+- immer
+- @react-native-async-storage/async-storage
+
+## After install packages: 
+
+- cd android
+- ./gradlew clean
+- cd ..
+- npm start
