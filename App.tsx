@@ -1,150 +1,117 @@
-import { StatusBar } from "expo-status-bar";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, Text, View, Button, TextInput, Image } from "react-native";
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
 
-const Tab = createBottomTabNavigator();
+import React from 'react';
+import type {PropsWithChildren} from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from 'react-native';
 
-const Stack = createNativeStackNavigator();
+import {
+  Colors,
+  DebugInstructions,
+  Header,
+  LearnMoreLinks,
+  ReloadInstructions,
+} from 'react-native/Libraries/NewAppScreen';
 
-const App = () => {
+type SectionProps = PropsWithChildren<{
+  title: string;
+}>;
+
+function Section({children, title}: SectionProps): JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "#f4511e",
+    <View style={styles.sectionContainer}>
+      <Text
+        style={[
+          styles.sectionTitle,
+          {
+            color: isDarkMode ? Colors.white : Colors.black,
           },
-          headerTintColor: "#fff",
-          headerTitleStyle: {
-            fontWeight: "bold",
+        ]}>
+        {title}
+      </Text>
+      <Text
+        style={[
+          styles.sectionDescription,
+          {
+            color: isDarkMode ? Colors.light : Colors.dark,
           },
-          headerTitle: (props) => <LogoTitle {...props} />,
-          headerRight: () => <Button title="Info" />,
-        }}
-      >
-        <Stack.Screen name="Home" options={{ title: "Overview" }}>
-          {(props) => <HomeScreen {...props} extraData={"someData"} />}
-        </Stack.Screen>
-        <Stack.Screen
-          name="Details"
-          component={DetailsScreen}
-          options={{
-            title: "My home",
-            headerStyle: {
-              backgroundColor: "#F4D41E",
-            },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-          }}
-        />
-        <Stack.Screen
-          name="SecondScreen"
-          options={{ title: "SecondScreens" }}
-          component={SecondScreen}
-          initialParams={{ itemId: 42 }}
-        />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
-  );
-};
-const LogoTitle = (props: any) => {
-  return (
-    <View>
-      <Image
-        style={{ width: 50, height: 50 }}
-        source={require("./assets/favicon.png")}
-      />
-      {props.options}
+        ]}>
+        {children}
+      </Text>
     </View>
   );
-};
+}
 
-const HomeScreen = (props: any) => {
-  const [postText, setPostText] = React.useState("");
+function App(): JSX.Element {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Home Screen</Text>
-      <Text>{props?.extraData}</Text>
-      <TextInput
-        multiline
-        placeholder="What's on your mind?"
-        style={{ height: 200, padding: 10, backgroundColor: "white" }}
-        value={postText}
-        onChangeText={setPostText}
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Button
-        title="Go to Details"
-        onPress={() => props.navigation.navigate("Details")}
-      />
-
-      <Button
-        title="Go to SecondScreen"
-        onPress={() => {
-          /* 1. Navigate to the Details route with params */
-          props.navigation.navigate("SecondScreen", {
-            itemId: postText !== "" ? postText : 86,
-            otherParam: "anything you want here",
-          });
-        }}
-      />
-    </View>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        <Header />
+        <View
+          style={{
+            backgroundColor: isDarkMode ? Colors.black : Colors.white,
+          }}>
+          <Section title="Step One">
+            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+            screen and then come back to see your edits.
+          </Section>
+          <Section title="See Your Changes">
+            <ReloadInstructions />
+          </Section>
+          <Section title="Debug">
+            <DebugInstructions />
+          </Section>
+          <Section title="Learn More">
+            Read the docs to discover what to do next:
+          </Section>
+          <LearnMoreLinks />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
-};
-const SecondScreen = (props: any) => {
-  const { itemId, otherParam } = props.route.params;
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>itemId: {JSON.stringify(itemId)}</Text>
-      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-      <Button
-        title="Go to Home"
-        onPress={() => props.navigation.navigate("Home")}
-      />
-      <Button title="Go back" onPress={() => props.navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => props.navigation.popToTop()}
-      />
-    </View>
-  );
-};
-
-const DetailsScreen = ({ navigation }: any) => {
-  return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push("Details")}
-      />
-      <Button title="Go to Home" onPress={() => navigation.navigate("Home")} />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
-
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="SecondScreen" component={SecondScreen} />
-      </Tab.Navigator>
-    </View>
-  );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
   },
 });
 
