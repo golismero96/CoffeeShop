@@ -1,7 +1,8 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
 const OrderHistoryScreen = () => {
+  const text = 'test';
   return (
     <View>
       <Text>OrderHistoryScreen</Text>
@@ -11,4 +12,4 @@ const OrderHistoryScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default OrderHistoryScreen;
+export { OrderHistoryScreen };

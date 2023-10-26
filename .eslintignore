@@ -1,0 +1,6 @@
+{
+    "ignorePatterns": [
+        "android/", "ios/", "node_modules",
+        "**/*.ttf", "**/*.png", "**/*.json"
+    ]
+}
