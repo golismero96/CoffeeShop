@@ -1,65 +1,31 @@
-import React from "react";
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from "react-native";
+import React from 'react';
 
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { DetailsScreen, PaymentScreen } from './src/screens';
+import TabNavigator from './src/navigators/TabNavigator';
+// import SafeAreaProvider from "./src/main/SafeAreaProvider";
 
-import CustomIcon from "./src/components/CustomIcon";
-
-import { HomeScreen } from "./src/screens";
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === "dark";
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? "light-content" : "dark-content"}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <CustomIcon name="like" size={30} />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <HomeScreen />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="Tab"
+          component={TabNavigator}
+          options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+        <Stack.Screen
+          name="PaymentScreen"
+          component={PaymentScreen}
+          options={{ animation: 'slide_from_bottom' }}></Stack.Screen>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: "600",
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: "400",
-  },
-  highlight: {
-    fontWeight: "700",
-  },
-});
-
 export default App;
